@@ -4,11 +4,12 @@ int main()
 {
     LinkedList list;
 
-    list.insert_before(1, 1);
+    for(int i = 0; i < 5; i++)
+        list.insert_beggining(i);
 
-    /*list.insert_beggining(1);
+    list.insert_before(7, 100);
 
-    for(int i = 1 ; i < 5; i++)
+    /*for(int i = 1 ; i < 5; i++)
         list.insert_after(i, i);
 
     list.insert_before(3, 6);

@@ -1,7 +1,5 @@
 #include "../headers/linked_list.h"
 
-int ID = 1;
-
 void LinkedList::inc_nodes_counter()
 {
     node_counter++;
@@ -19,17 +17,7 @@ int LinkedList::get_nodes_counter()
 
 bool LinkedList::insert_beggining(int data)
 {
-    if(!head) // If head is empty, make new node as head
-    {
-        Node* new_node = new Node(ID++, data, nullptr);
-        head = new_node;
-    } 
-    else // If head is already created  
-    {
-        Node* new_node = new Node(ID++, data, head);
-        head = new_node;
-    }
-
+    head = new Node(current_id_in_use++, data, head);
     inc_nodes_counter();
 
     return true;
@@ -51,7 +39,7 @@ bool LinkedList::insert_after(int id, int data)
         if(cur_node->get_id() == id) // If required id was found
         {
             tmp_node = cur_node->get_next_node();
-            new_node = new Node(ID++, data, tmp_node);
+            new_node = new Node(current_id_in_use++, data, tmp_node);
             cur_node->set_next(new_node);
             inc_nodes_counter();
 
@@ -77,16 +65,15 @@ bool LinkedList::insert_before(int id, int data)
     if(cur_node->get_id() == id)
     {
         insert_beggining(data);
-        inc_nodes_counter();
         std::cout << "Operation insert_before() inserted element at the beginning of the list!\n";
         return true;
     }
 
-    while(cur_node != nullptr || cur_node->get_id() != id)
+    while(cur_node != nullptr)
     {
         if(cur_node->get_id() == id)
         {
-            new_node = new Node(ID++, data, cur_node);
+            new_node = new Node(current_id_in_use++, data, cur_node);
             prev_node->set_next(new_node);
             inc_nodes_counter();
             std::cout << "Operation insert_before() inserted element after id = " << id << '\n';
@@ -99,6 +86,38 @@ bool LinkedList::insert_before(int id, int data)
     }
 
     return false;
+}
+
+bool LinkedList::remove_before(int id)
+{
+    Node* cur_node, *next_after_current_node, *prev_before_current_node, *next_after_found_node;
+
+    cur_node = head;
+    prev_before_current_node = nullptr;
+
+    if(get_nodes_counter() == 0)
+    {
+        std::cout << "List is empty! There are no elements to delete!\n";
+        return false;
+    }
+
+    while(cur_node != nullptr)
+    {
+        next_after_current_node = cur_node->get_next_node();
+        if(next_after_current_node != nullptr)
+        {
+            if(next_after_current_node->get_id() == id)
+            {
+                next_after_found_node = cur_node->get_next_node()->get_next_node();
+                cur_node->set_next(next_after_found_node);
+            } else 
+            {
+
+            }
+        }
+
+        cur_node = next_after_current_node;
+    }
 }
 
 void LinkedList::print_list()

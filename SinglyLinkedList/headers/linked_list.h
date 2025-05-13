@@ -9,6 +9,7 @@ class LinkedList
     private:
         Node* head;
         int node_counter;
+        int current_id_in_use;
 
         void inc_nodes_counter();
         void dec_nodes_counter();
@@ -24,6 +25,6 @@ class LinkedList
         int get_nodes_counter();
         void print_list();
 
-        LinkedList(): head(nullptr), node_counter(0){};
+        LinkedList(): head(nullptr), node_counter(0), current_id_in_use(1){};
         ~LinkedList();
 };
